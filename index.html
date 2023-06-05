@@ -189,6 +189,28 @@
         ];
         console.table(table);
       });
+      //start timer
+      // Timer Start Button Functionality
+      errorBtns[11].addEventListener("click", function () {
+        console.time("Timer Button");
+        console.log("Timer Button Pressed, Timer Starting Now");
+      });
+
+      //stop timer
+      errorBtns[12].addEventListener("click", function () {
+        console.timeEnd("Timer Button");
+      });
+
+      //console trace
+      errorBtns[13].addEventListener("click", function () {
+        console.trace();
+      });
+
+      //trigger a global error
+      errorBtns[14].addEventListener("click", function () {
+        //custom function following demo
+        boom();
+      });
 
       TrackJS.track("Testing TrackJS!");
     </script>
