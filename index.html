@@ -1,108 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 9</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lab 9</title>
+    <style>
+      button {
+        margin: 3px;
+      }
 
-  <style>
-    button {
-      margin: 3px;
-    }
+      button:hover {
+        cursor: pointer;
+      }
 
-    button:hover {
-      cursor: pointer;
-    }
+      #first-num,
+      #second-num {
+        width: 60px;
+      }
 
-    #first-num,
-    #second-num {
-      width: 60px;
-    }
+      output {
+        border: 1px solid gray;
+        display: block;
+        height: 18px;
+        margin-top: 5px;
+        padding: 5px;
+        width: 240px;
+      }
 
-    output {
-      border: 1px solid gray;
-      display: block;
-      height: 18px;
-      margin-top: 5px;
-      padding: 5px;
-      width: 240px;
-    }
+      main {
+        width: 800px;
+      }
 
-    main {
-      width: 800px;
-    }
+      #error-btns {
+        column-gap: 5px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        row-gap: 5px;
+      }
 
-    #error-btns {
-      column-gap: 5px;
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 30px;
-      row-gap: 5px;
-    }
+      #error-btns > * {
+        padding: 8px 2px;
+        width: 122px;
+      }
+    </style>
+  </head>
 
-    #error-btns>* {
-      padding: 8px 2px;
-      width: 122px;
-    }
-  </style>
-</head>
+  <body>
+    <main>
+      <form>
+        <fieldset>
+          <legend>Error Calculator</legend>
+          <input name="first-num" id="first-num" />
+          <select name="operator" id="operator">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+          </select>
+          <input name="second-num" id="second-num" />
+          <button id="calculate">Calculate</button>
+          <br />
+          <output></output>
+        </fieldset>
+      </form>
 
-<body>
-  <main>
-    <form>
-      <fieldset>
-        <legend>Error Calculator</legend>
-        <input name="first-num" id="first-num" />
-        <select name="operator" id="operator">
-          <option>+</option>
-          <option>-</option>
-          <option>*</option>
-          <option>/</option>
-        </select>
-        <input name="second-num" id="second-num" />
-        <button id="calculate">Calculate</button>
-        <br />
-        <output></output>
-      </fieldset>
-    </form>
+      <section id="error-btns">
+        <button>Console Log</button>
+        <button>Console Error</button>
+        <button>Console Count</button>
+        <button>Console Warn</button>
+        <button>Console Assert</button>
+        <button>Console Clear</button>
+        <button>Console Dir</button>
+        <button>Console dirxml</button>
+        <button>Console Group Start</button>
+        <button>Console Group End</button>
+        <button>Console Table</button>
+        <button>Start Timer</button>
+        <button>End Timer</button>
+        <button>Console Trace</button>
+        <button>Trigger a Global Error</button>
+      </section>
+    </main>
 
-    <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
-    </section>
-  </main>
+    <script>
+      let form = document.querySelector("form");
+      form.addEventListener("submit", (e) => {
+        try {
+          e.preventDefault();
+          let output = document.querySelector("output");
+          let firstNum = document.querySelector("#first-num").value;
+          let secondNum = document.querySelector("#second-num").value;
+          let operator = document.querySelector("#operator").value;
+          output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+        } catch (error) {
+          console.log("There is an error with the input");
+          throw new MyError("Wrong input");
+        } finally {
+          console.log("Calculation Works!");
+        }
+      });
 
-  <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
+      class MyError extends Error {
+        constructor(message) {
+          super("There is an Error : " + message);
+          this.name = this.constructor.name;
+        }
+      }
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+      let errorBtns = Array.from(
+        document.querySelectorAll("#error-btns > button")
+      );
 
-    // Start your code here
-    // You may move this JS to another file if you wish
-  </script>
-</body>
+      // Start your code here
+      // You may move this JS to another file if you wish
+      //console log
+      errorBtns[0].addEventListener("click", function () {
+        console.log("Console Log Demo");
+      });
 
+      //console error
+      errorBtns[1].addEventListener("click", function () {
+        console.error("Console Error Demo");
+      });
+
+      //console count
+      errorBtns[2].addEventListener("click", function () {
+        console.count("Count Button");
+      });
+
+      //console warn
+      errorBtns[3].addEventListener("click", function () {
+        console.warn("Console Warn Button");
+      });
+
+      //console assert
+      errorBtns[4].addEventListener("click", function () {
+        const assertion = {
+          number: 2,
+          errorMsg: "The number does not equal 3",
+        };
+
+        console.assert(assertion.number === 3, assertion);
+      });
+
+      //console clear
+      errorBtns[5].addEventListener("click", function () {
+        console.clear();
+      });
+
+      //console dir
+      errorBtns[6].addEventListener("click", function () {
+        console.dir(document.body);
+      });
+
+      //console dirxml
+      errorBtns[7].addEventListener("click", function () {
+        console.dirxml(document);
+      });
+
+      //console group start
+      errorBtns[8].addEventListener("click", function () {
+        console.group();
+      });
+
+      //conssole group end
+      errorBtns[9].addEventListener("click", function () {
+        console.groupEnd();
+      });
+
+      //console table
+      errorBtns[10].addEventListener("click", function () {
+        const table = [
+          ["Fluency in Information Technology", "CSE 3"],
+          ["Mathematical Beauty in Rome Lab", "CSE 6GS"],
+          ["Discrete Mathematics", "CSE 20"],
+          ["Undergraduate Seminar", "CSE 90"],
+        ];
+        console.table(table);
+      });
+    </script>
+  </body>
 </html>
